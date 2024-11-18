@@ -1,19 +1,18 @@
 import Products from "@/components/Products";
 import Stores from "@/components/Stores";
+import { useIndex } from "@/hooks/useIndex";
 import "@fontsource-variable/onest";
-import { useRouter } from "next/router";
 import Carousel from "../components/Carousel";
 import Header from "../components/Header";
 
 export default function Home() {
-  const router = useRouter();
-
-  const onClickLocations = () => {
-    router.push("/locations");
-  };
+  const {
+    //* Functions
+    onClickLocations,
+  } = useIndex();
 
   return (
-    <div>
+    <div className="bg-gray-100 h-full">
       <Header />
       <Carousel />
       <div className="mt-20 md:mt-28">
@@ -51,7 +50,7 @@ export default function Home() {
           Descubre nuestras tiendas en todo el mundo
         </button>
       </div>
-      <h1 className="text-center font-extrabold text-2xl md:text-3xl mt-20 mb-10">
+      <h1 className="text-center font-extrabold text-2xl md:text-3xl mt-20 pb-10">
         Nuestro menú
       </h1>
     </div>

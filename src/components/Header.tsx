@@ -1,121 +1,104 @@
+import "@fontsource-variable/onest";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Header: React.FC<{}> = () => {
-  const [activeClass, setActiveClass] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  const onClickBurgerMenu = () => {
-    setActiveClass(!activeClass);
+  const router = useRouter();
+
+  const onClickLogo = () => {
+    router.push("/");
+  };
+
+  const onClickToggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
     <div className="sticky top-0 z-50 border-b-2">
-      <header className="bg-white w-full h-20 text-black flex justify-between items-center">
-        <div>
-          <ul className="flex p-5 ">
-            <li className="p-1 font-bold leading-[14px] text-[10px] md:text-[20px] border-b-2 border-b-black">
-              PT
-            </li>
-            <li className="p-1 font-bold leading-[14px] text-[10px] md:text-[20px]">
-              EN
-            </li>
-            <li className="p-1 font-bold leading-[14px] text-[10px] md:text-[20px]">
-              ES
-            </li>
-            <li className="p-1 font-bold leading-[14px] text-[10px] md:text-[20px]">
-              FR
-            </li>
-            <li className="p-1 font-bold leading-[14px] text-[10px] md:text-[20px]">
-              JP
-            </li>
-          </ul>
-        </div>
+      <header className="bg-white w-full h-12 text-black flex justify-between items-center px-4">
         <div>
           <img
             src="/logo.svg"
             alt="The Coffee"
-            className="cursor-pointer h-[15px] md:h-[25px] flex justify-center items-center"
+            onClick={onClickLogo}
+            className="cursor-pointer h-[15px] flex items-center"
           />
         </div>
+        <div className="md:hidden w-full md:w-auto flex justify-end items-end">
+          <li
+            onClick={onClickToggleMenu}
+            className="md:hidden flex items-center justify-center w-[32px] h-[32px] relative cursor-pointer z-50"
+          >
+            <span
+              className={`absolute block w-[24px] h-[2px] bg-black transition-transform duration-300 ease-in-out ${
+                menuOpen ? "rotate-45" : "-translate-y-[4px]"
+              }`}
+            ></span>
+            <span
+              className={`absolute block w-[24px] h-[2px] bg-black transition-transform duration-300 ease-in-out ${
+                menuOpen ? "-rotate-45" : "translate-y-[4px]"
+              }`}
+            ></span>
+          </li>
+        </div>
         <div>
-          <ul className="flex p-5 justify-center items-center">
-            <li className="p-1 font-bold leading-[14px] text-[14px] flex items-center">
-              <img
-                src="/instagram.svg"
-                alt="Instagram"
-                className="h-[40px] cursor-pointer"
-              />
-            </li>
-            <li className="p-1 font-bold leading-[14px] text-[14px] flex items-center">
-              <img
-                src="/linkedin.svg"
-                alt="Linkedin"
-                className="h-[40px] cursor-pointer"
-              />
-            </li>
-            <li className="p-1 font-bold leading-[14px] text-[14px] flex items-center">
-              <img
-                src="/youtube.svg"
-                alt="Youtube"
-                className="h-[40px] cursor-pointer"
-              />
-            </li>
-            <li
-              onClick={onClickBurgerMenu}
-              className="p-1 font-bold leading-[14px] text-[14px] flex flex-col items-center justify-center w-[20px] h-[20px] relative ml-[10px] cursor-pointer"
+          <nav
+            className={`fixed inset-0 bg-white flex flex-col items-center justify-center transition-transform transform ${
+              menuOpen ? "translate-x-0" : "translate-x-full"
+            } md:relative md:translate-x-0 md:flex-row md:items-center md:justify-end md:h-auto md:bg-transparent`}
+          >
+            <Link
+              href="/about"
+              className={`px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full ${
+                router.pathname === "/about" ? "after:w-full" : "after:w-0"
+              }`}
             >
-              <div
-                className="w-full h-[3px] bg-black absolute"
-                style={{
-                  margin: "5px 0",
-                  transition: "all .25s ease-in-out",
-                  top: `${activeClass ? "5px" : "8px"}`,
-                  transform: `${activeClass ? "rotate(-45deg)" : ""}`,
-                }}
-              ></div>
-              <div
-                className="w-full h-[3px] bg-black absolute "
-                style={{
-                  margin: "5px 0",
-                  transition: "all .25s ease-in-out",
-                  top: `${activeClass ? "5px" : "2px"}`,
-                  transform: `${activeClass ? "rotate(45deg)" : ""}`,
-                }}
-              ></div>
-            </li>
-          </ul>
+              Sobre nosotros
+            </Link>
+            <Link
+              href="/our-grain"
+              className={`px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full ${
+                router.pathname === "/our-grain" ? "after:w-full" : "after:w-0"
+              }`}
+            >
+              Nuestro grano
+            </Link>
+            <Link
+              href="/locations"
+              className={`px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full ${
+                router.pathname === "/locations" ? "after:w-full" : "after:w-0"
+              }`}
+            >
+              Nuestras tiendas
+            </Link>
+            <Link
+              href="/contact"
+              className={`px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full ${
+                router.pathname === "/contact" ? "after:w-full" : "after:w-0"
+              }`}
+            >
+              Háblanos
+            </Link>
+            <Link
+              href="/register"
+              className={`px-4 mb-2 md:mb-0 text-center  font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full ${
+                router.pathname === "/register" ? "after:w-full" : "after:w-0"
+              }`}
+            >
+              Registro
+            </Link>
+            <Link
+              href="/login"
+              className="md:ml-4 text-lg md:text-xs text-center cursor-pointer font-bold md:mr-5 md:text-white md:bg-blue-500 md:hover:bg-blue-600 h-12 md:h-8 flex justify-center items-center md:p-2 md:rounded-[9999px]  transition-all ease-in-out"
+            >
+              Iniciar sesión
+            </Link>
+          </nav>
         </div>
       </header>
-      <div
-        className={`w-full h-20 bg-white text-black fixed top-0 left-0 md:top-auto md:left-auto z-40  justify-center overflow-hidden transition-all duration-500 ease-in-out ${
-          activeClass
-            ? "h-screen md:max-h-full md:h-auto top-0"
-            : "h-0 md:h-auto -top-full"
-        }`}
-      >
-        <div
-          onClick={onClickBurgerMenu}
-          className="absolute top-4 right-4 text-black text-4xl cursor-pointer md:hidden"
-        >
-          &times;
-        </div>
-        <ul className="flex flex-col md:flex-row justify-center items-center p-5 md:p-2 h-full md:mb-2">
-          <a className="px-4 mb-2 md:mb-0 md:p-0 text-[20px] md:text-[17px] text-center cursor-pointer font-bold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            Sobre nosotros
-          </a>
-          <a className="px-4 mb-2 md:mb-0 text-[20px] md:text-[17px] text-center cursor-pointer font-bold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            Nuestro grano
-          </a>
-          <a className="px-4 mb-2 md:mb-0 text-[20px] md:text-[17px] text-center cursor-pointer font-bold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            Nuestras tiendas
-          </a>
-          <a className="px-4 mb-2 md:mb-0 text-[20px] md:text-[17px] text-center cursor-pointer font-bold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            Franquicia
-          </a>
-          <a className="px-4 mb-2 md:mb-0 text-[20px] md:text-[17px] text-center cursor-pointer font-bold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 after:ease-in-out hover:after:w-full">
-            Háblanos
-          </a>
-        </ul>
-      </div>
     </div>
   );
 };

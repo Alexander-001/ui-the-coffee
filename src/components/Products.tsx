@@ -1,10 +1,10 @@
-import { products } from "@/database/products";
 import React, { useEffect, useState } from "react";
 
 const Products: React.FC<{}> = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [productsPerPage, setProductsPerPage] = useState<number>(4);
 
+  const products: any = [];
   const getProductsPerPage = () => {
     if (typeof window === "undefined") return 8;
     if (window.innerWidth < 640) return 2;
@@ -54,7 +54,7 @@ const Products: React.FC<{}> = () => {
             }`}
           >
             <div className={`flex justify-center h-full items-center mt-5`}>
-              {slide.map((prod, idx) => (
+              {/* {slide.map((prod, idx) => (
                 <div
                   key={idx}
                   className={`flex flex-col m-5 cursor-pointer ${
@@ -68,7 +68,7 @@ const Products: React.FC<{}> = () => {
                   />
                   <p className="text-center font-semibold mt-2">{prod.title}</p>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         ))}
@@ -89,9 +89,9 @@ const Products: React.FC<{}> = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M5 1 1 5l4 4"
             />
           </svg>
@@ -114,9 +114,9 @@ const Products: React.FC<{}> = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="m1 9 4-4-4-4"
             />
           </svg>
