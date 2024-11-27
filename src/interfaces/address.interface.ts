@@ -18,11 +18,13 @@ interface Address {
 }
 
 export interface AddressResponse {
-  address: Address;
+  address: Address | null;
   message: string;
+  errorSession: boolean;
 }
 
 export interface GetAddressResponse {
   addresses: Address[];
   message: string;
+  errorSession: boolean;
 }

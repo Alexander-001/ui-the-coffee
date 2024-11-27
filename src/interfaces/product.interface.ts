@@ -1,14 +1,14 @@
 //* Product Body params
 export interface ProductService {
   name: string;
-  price: number;
+  price: number | string;
   description: string;
   sku: string;
   image: string;
 }
 
 //* Response Product Api services
-interface Product {
+export interface Product {
   id: number;
   name: string;
   price: number;
@@ -18,11 +18,13 @@ interface Product {
 }
 
 export interface ProductResponse {
-  product: Product;
+  product: Product | null;
   message: string;
+  errorSession: boolean;
 }
 
 export interface GetProductResponse {
   message: string;
   products: Product[];
+  errorSession: boolean;
 }

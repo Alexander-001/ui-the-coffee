@@ -4,10 +4,12 @@ const Carousel: React.FC<{}> = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const slides = [
-    "https://thecoffee.jp/api/files/view/imagem10.jpg",
+    "",
+    /* "https://thecoffee.jp/api/files/view/imagem10.jpg",
     "https://thecoffee.jp/api/files/view/FOTO-31.07.jpg",
     "https://thecoffee.jp/api/files/view/imagem11.jpg",
     "https://thecoffee.jp/api/files/view/FOTO-1---04.09.jpg",
+   */
   ];
 
   const onClickPreviuos = () => {

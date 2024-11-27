@@ -1,7 +1,8 @@
-import { ApiResponseError } from "@/interfaces/service.interface";
+import axios, { AxiosRequestConfig } from "axios";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
+const baseURL: string = "http://localhost:8080";
 let tokenInfo: string = "";
 
 export function requestSetToken(token: string) {
@@ -45,53 +46,60 @@ export async function serviceRequest(
   params: { [key: string]: string } = {},
   headers: { [key: string]: string } = {}
 ): Promise<any> {
-  const baseURL: string = "http://localhost:8080";
   const url = (baseURL || window?.location?.origin || "") + "/" + service;
   let settingsHeaders: { [key: string]: string } = {
     Accept: "application/json",
-    "Content-Type": "application/json",
+    "Content-Type": "application/json; charset=UTF-8",
     ...headers,
   };
-  if (method === "GET") {
+  if (method === "GET" || body instanceof FormData) {
     delete settingsHeaders["Content-Type"];
   }
-  if (tokenInfo) {
-    settingsHeaders.Authorization = `Bearer ${tokenInfo}`;
-  }
+  if (tokenInfo) settingsHeaders.Authorization = `Bearer ${tokenInfo}`;
   let settings: any = {
     method,
     headers: settingsHeaders,
   };
-  let settingBody: any = {};
   if (body instanceof FormData) {
-    if (serviceParam && serviceParam !== "") {
+    if (serviceParam) {
       body.append("serviceParam", serviceParam);
     }
-    settingBody = body;
+    settings.body = body;
   } else {
-    if (serviceParam && serviceParam !== "") {
-      settingBody.serviceParam = serviceParam;
-    }
-    if (Object.keys(body).length > 0) {
-      settingBody = { ...settingBody, ...body };
-    }
+    let settingBody: any = {};
+    if (serviceParam) settingBody.serviceParam = serviceParam;
+    if (Object.keys(body).length > 0) settingBody = { ...settingBody, ...body };
     if (method !== "GET" && settingBody) {
       settings.body = JSON.stringify(settingBody);
     }
   }
-  const endpoint = url.toString();
+  const queryString = new URLSearchParams(params).toString();
+  const endpoint = queryString ? `${url}?${queryString}` : url;
   return new Promise((resolve, reject) => {
-    fetch(endpoint, settings)
-      .then((response) => response.json())
-      .then((response: any) => {
-        const errorData = response as ApiResponseError;
-        if (errorData?.notifications) reject({ ...errorData, service });
-        if (response?.Error) reject({ ...response, service });
-        return response;
-      })
-      .then(resolve)
-      .catch((err) => {
-        reject(err);
+    const axiosConfig: AxiosRequestConfig = {
+      url: endpoint,
+      method: settings.method,
+      headers: settings.headers,
+      data: settings.body || null,
+    };
+    axios(axiosConfig)
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        if (error.response) {
+          reject({ status: error.response.status, ...error.response.data });
+        } else if (error.request) {
+          reject({
+            status: 0,
+            message: "No se recibió respuesta del servidor.",
+            error: error.message,
+          });
+        } else {
+          reject({
+            status: 0,
+            message: "Error en la solicitud.",
+            error: error.message,
+          });
+        }
       });
   });
 }

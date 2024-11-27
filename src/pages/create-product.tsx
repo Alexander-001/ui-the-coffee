@@ -1,17 +1,41 @@
 import Header from "@/components/Header";
+import Loader from "@/components/Loader";
+import WarningModal from "@/components/Modals/WarningModal";
 import { useCreateProduct } from "@/hooks/useCreateProduct";
-import "@fontsource-variable/onest";
+import { useIsAdmin } from "@/utils/Common";
+import Link from "next/link";
 
 const CreateProduct = () => {
   const {
     //* Variables
+    loading,
+    showModal,
+    messageModal,
+    isAdmin,
+    inputs,
+    errors,
     //* Functions
-    onSubmiCreateProduct,
+    onSubmitCreateProduct,
+    onChangeInput,
     onChangeImageFile,
+    onClickCloseModal,
   } = useCreateProduct();
+  useIsAdmin(isAdmin);
   return (
-    <div className="h-full">
+    <div>
       <Header />
+      {loading && <Loader />}
+      {showModal && (
+        <>
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
+          <div className="z-20 fixed inset-0 flex items-center justify-center">
+            <WarningModal
+              message={messageModal}
+              onClickClose={onClickCloseModal}
+            />
+          </div>
+        </>
+      )}
       <section className="bg-gray-200 h-full">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
           <div className="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0  bg-gray-900">
@@ -21,7 +45,7 @@ const CreateProduct = () => {
               </h1>
               <form
                 className="space-y-4 md:space-y-6" // @ts-ignore
-                onSubmit={onSubmiCreateProduct}
+                onSubmit={onSubmitCreateProduct}
               >
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -29,33 +53,33 @@ const CreateProduct = () => {
                   </label>
                   <input
                     type="text"
-                    name="username"
-                    id="username"
-                    // value={inputs.username} // @ts-ignore
-                    // onChange={onChangeInput}
+                    name="name"
+                    id="name"
+                    value={inputs.name} // @ts-ignore
+                    onChange={onChangeInput}
                     className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
-                    placeholder="Nombre de usuario"
+                    placeholder="Nombre del producto"
                   />
-                  {/* {errors.username && (
-                    <p className="text-red-200 mt-3">{errors.username}</p>
-                  )} */}
+                  {errors.name && (
+                    <p className="text-red-200 mt-3">{errors.name}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Ingresar precio
                   </label>
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    // value={inputs.email} // @ts-ignore
-                    // onChange={onChangeInput}
+                    type="number"
+                    name="price"
+                    id="price"
+                    value={inputs.price} // @ts-ignore
+                    onChange={onChangeInput}
                     className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
-                    placeholder="correo@correo.com"
+                    placeholder="Precio del producto"
                   />
-                  {/* {errors.email && (
-                    <p className="text-red-200 mt-3">{errors.email}</p>
-                  )} */}
+                  {errors.price && (
+                    <p className="text-red-200 mt-3">{errors.price}</p>
+                  )}
                 </div>
                 <div className="relative">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -63,16 +87,16 @@ const CreateProduct = () => {
                   </label>
                   <input
                     type="text"
-                    name="password"
-                    id="password"
-                    // value={inputs.password} // @ts-ignore
-                    // onChange={onChangeInput}
-                    placeholder="Descripción"
+                    name="description"
+                    id="description"
+                    value={inputs.description} // @ts-ignore
+                    onChange={onChangeInput}
+                    placeholder="Descripción del producto"
                     className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
                   />
-                  {/* {errors.password && (
-                    <p className="text-red-200 mt-3">{errors.password}</p>
-                  )} */}
+                  {errors.description && (
+                    <p className="text-red-200 mt-3">{errors.description}</p>
+                  )}
                 </div>
                 <div className="relative">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -80,18 +104,16 @@ const CreateProduct = () => {
                   </label>
                   <input
                     type="text"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    // value={inputs.confirmPassword} // @ts-ignore
-                    //onChange={onChangeInput}
-                    placeholder="Sku"
+                    name="sku"
+                    id="sku"
+                    value={inputs.sku} // @ts-ignore
+                    onChange={onChangeInput}
+                    placeholder="Sku del producto"
                     className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
                   />
-                  {/* {errors.confirmPassword && (
-                    <p className="text-red-200 mt-3">
-                      {errors.confirmPassword}
-                    </p>
-                  )} */}
+                  {errors.sku && (
+                    <p className="text-red-200 mt-3">{errors.sku}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -99,14 +121,16 @@ const CreateProduct = () => {
                   </label>
                   <input
                     type="file"
-                    name="confirmPassword"
-                    id="confirmPassword" //@ts-ignore
+                    name="image"
+                    id="image" //@ts-ignore
                     onChange={onChangeImageFile}
-                    // value={inputs.confirmPassword} // @ts-ignore
-                    //onChange={onChangeInput}
-                    placeholder="Sku"
+                    /*  value={inputs.image} */ // @ts-ignore
+                    placeholder="Imagen del producto"
                     className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
                   />
+                  {errors.image && (
+                    <p className="text-red-200 mt-3">{errors.image}</p>
+                  )}
                 </div>
                 <button
                   type="submit"
@@ -114,6 +138,14 @@ const CreateProduct = () => {
                 >
                   Crear producto
                 </button>
+                <p className="text-sm font-light text-gray-400">
+                  <Link
+                    href="/products"
+                    className="font-medium text-primary-500 hover:underline "
+                  >
+                    Volver a productos
+                  </Link>
+                </p>
               </form>
             </div>
           </div>

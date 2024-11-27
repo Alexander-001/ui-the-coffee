@@ -1,5 +1,3 @@
-import Products from "@/components/Products";
-import Stores from "@/components/Stores";
 import { useIndex } from "@/hooks/useIndex";
 import "@fontsource-variable/onest";
 import Carousel from "../components/Carousel";
@@ -15,7 +13,7 @@ export default function Home() {
     <div className="bg-gray-100 h-full">
       <Header />
       <Carousel />
-      <div className="mt-20 md:mt-28">
+      <div className="mt-20 md:mt-28 pb-20">
         <div className="flex flex-col w-full justify-center items-center">
           <p className="w-[70%] md:w-[50%] text-3xl mb-5 font-extrabold">
             En the cofee:
@@ -34,7 +32,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <h1 className="text-center font-extrabold text-2xl md:text-3xl mt-20 mb-10">
+      {/* <h1 className="text-center font-extrabold text-2xl md:text-3xl mt-20 mb-10">
         Nuestra línea de productos
       </h1>
       <Products />
@@ -52,7 +50,7 @@ export default function Home() {
       </div>
       <h1 className="text-center font-extrabold text-2xl md:text-3xl mt-20 pb-10">
         Nuestro menú
-      </h1>
+      </h1> */}
     </div>
   );
 }
