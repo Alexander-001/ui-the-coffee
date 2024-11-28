@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useAbout } from "@/hooks/useAbout";
 import "@fontsource-variable/onest";
@@ -11,6 +12,7 @@ const About = () => {
     <>
       <Header />
       <h1>Sobre nosotros</h1>
+      <Footer />
     </>
   );
 };

@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import WarningModal from "@/components/Modals/WarningModal";
@@ -29,7 +30,16 @@ const Register: React.FC<{}> = () => {
   return (
     <div>
       <Header />
-      {loading && <Loader />}
+      {loading && (
+        <>
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
+          <Loader
+            loading={loading}
+            classLoader="items-center"
+            message="Registrando Usuario..."
+          />
+        </>
+      )}{" "}
       {showModal ? (
         <>
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
@@ -223,6 +233,7 @@ const Register: React.FC<{}> = () => {
           </div>
         </section>
       )}
+      <Footer />
     </div>
   );
 };

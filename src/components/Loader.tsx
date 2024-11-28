@@ -1,15 +1,30 @@
-const Loader: React.FC<{}> = () => {
+import "@fontsource-variable/onest";
+import { useEffect } from "react";
+
+const Loader: React.FC<{
+  loading: boolean;
+  classLoader: string;
+  message: string;
+}> = ({ loading, classLoader, message }) => {
+  useEffect(() => {
+    if (loading) {
+      document.body.classList.add("overflow-hidden");
+    }
+    document.body.classList.remove("overflow-hidden");
+  }, [loading]);
   return (
-    <div className="size-full flex justify-center items-start absolute mt-[5rem]">
+    <div
+      className={`w-full h-[85%] flex justify-center items-start absolute  ${classLoader}`}
+    >
       <button
         disabled
         type="button"
-        className="size-32 z-40 text-sm font-medium text-gray-900 justify-center items-center flex flex-col"
+        className="shadow-custom bg-white rounded-lg w-[50%] md:w-[25%] h-[30%] md:h-[20%] z-40 text-sm font-medium text-gray-900 justify-center items-center flex flex-col"
       >
         <svg
           aria-hidden="true"
           role="status"
-          className="inline size-12  text-gray-200 animate-spin dark:text-gray-600"
+          className="inline w-[5rem] h-[5rem]  text-gray-200 animate-spin dark:text-gray-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +38,7 @@ const Loader: React.FC<{}> = () => {
             fill="#1C64F2"
           />
         </svg>
-        <p className="mt-2 text-blue-600 font-bold">Cargando...</p>
+        <p className="mt-3 text-blue-600 font-bold text-2xl">{message}</p>
       </button>
     </div>
   );

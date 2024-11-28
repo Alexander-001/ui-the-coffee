@@ -1,4 +1,5 @@
 import Direction from "@/components/Direction";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useLocations } from "@/hooks/useLocations";
 import "@fontsource-variable/onest";
@@ -42,6 +43,7 @@ const Locations: React.FC<{}> = () => {
         </div>
       </div>
       <div ref={mapContainer} className="w-full h-screen"></div>
+      <Footer />
     </div>
   );
 };

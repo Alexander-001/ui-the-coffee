@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import { useIndex } from "@/hooks/useIndex";
 import "@fontsource-variable/onest";
 import Carousel from "../components/Carousel";
@@ -51,6 +52,7 @@ export default function Home() {
       <h1 className="text-center font-extrabold text-2xl md:text-3xl mt-20 pb-10">
         Nuestro menú
       </h1> */}
+      <Footer />
     </div>
   );
 }

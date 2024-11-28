@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
 const Settings = () => {
@@ -5,6 +6,7 @@ const Settings = () => {
     <div className="h-full">
       <Header />
       <h1>Configuracion</h1>
+      <Footer />
     </div>
   );
 };

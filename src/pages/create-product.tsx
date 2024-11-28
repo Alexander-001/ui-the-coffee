@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import WarningModal from "@/components/Modals/WarningModal";
@@ -24,7 +25,16 @@ const CreateProduct = () => {
   return (
     <div>
       <Header />
-      {loading && <Loader />}
+      {loading && (
+        <>
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
+          <Loader
+            loading={loading}
+            classLoader="items-center"
+            message="Creando producto..."
+          />
+        </>
+      )}
       {showModal && (
         <>
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
@@ -85,7 +95,7 @@ const CreateProduct = () => {
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Ingresar descripción
                   </label>
-                  <input
+                  <textarea
                     type="text"
                     name="description"
                     id="description"
@@ -116,25 +126,26 @@ const CreateProduct = () => {
                   )}
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Ingresar imagén
-                  </label>
                   <input
                     type="file"
                     name="image"
                     id="image" //@ts-ignore
                     onChange={onChangeImageFile}
-                    /*  value={inputs.image} */ // @ts-ignore
-                    placeholder="Imagen del producto"
-                    className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none"
+                    className="hidden"
                   />
+                  <label
+                    className="bg-green-700 hover:bg-green-800 transition-all ease-in-out text-white px-4 py-2 rounded cursor-pointer" //@ts-ignore
+                    for="image"
+                  >
+                    Seleccionar imagen
+                  </label>
                   {errors.image && (
                     <p className="text-red-200 mt-3">{errors.image}</p>
                   )}
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full text-white bg-blue-700 hover:bg-blue-800  transition-all ease-in-out focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Crear producto
                 </button>
@@ -151,6 +162,7 @@ const CreateProduct = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

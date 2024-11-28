@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import WarningModal from "@/components/Modals/WarningModal";
@@ -19,7 +20,16 @@ const ConfirmationEmail: React.FC<{}> = () => {
   return (
     <div>
       <Header />
-      <div className="mt-[8rem]">{loading && <Loader />}</div>
+      {loading && (
+        <>
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
+          <Loader
+            loading={loading}
+            classLoader="items-center"
+            message="Confirmando Email..."
+          />
+        </>
+      )}{" "}
       <>
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10"></div>
         <div className="z-20 fixed inset-0 flex items-center justify-center">
@@ -29,6 +39,7 @@ const ConfirmationEmail: React.FC<{}> = () => {
           />
         </div>
       </>
+      <Footer />
     </div>
   );
 };

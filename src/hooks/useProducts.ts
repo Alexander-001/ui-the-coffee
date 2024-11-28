@@ -42,6 +42,17 @@ export const useProducts = () => {
     }
   };
 
+  const onClickImage = () => {};
+
+  const onClickEditImage = (id: number) => {
+    console.log("Editando id: ", id);
+  };
+
+  const onClickDeleteImage = (id: number) => {
+    setShowModal(true);
+    setMessageModal("¿Estas seguro de eliminar esta imagen?");
+  };
+
   return {
     //* Variables
     isAdmin,
@@ -49,7 +60,11 @@ export const useProducts = () => {
     loading,
     showModal,
     messageModal,
+
     //* Functions
     onClickCloseModal,
+    onClickImage,
+    onClickEditImage,
+    onClickDeleteImage,
   };
 };

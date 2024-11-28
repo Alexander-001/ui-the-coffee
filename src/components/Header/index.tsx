@@ -39,7 +39,7 @@ const Header: React.FC<{}> = () => {
           </div>
         </>
       )}
-      <div className="sticky top-0 z-50 border-b">
+      <div className="fixed w-full top-0 z-50 border-b">
         <header className="bg-white w-full h-12 text-black flex justify-between items-center px-4">
           <div>
             <img
