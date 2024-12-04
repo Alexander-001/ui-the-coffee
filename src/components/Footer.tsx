@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const Footer = () => {
-  const router = useRouter();
   return (
-    <footer className="fixed bottom-0 left-0 z-20 w-full p-4 bg-gray-900 border-t border-gray-700 shadow md:flex md:items-center md:justify-between md:p-6">
+    <footer className="bottom-0 left-0 z-20 w-full p-4 bg-gray-900 border-t border-gray-700 shadow md:flex md:items-center md:justify-between md:p-6">
       <span className="text-sm text-gray-300 sm:text-cente">
         © 2024{" "}
         <a href="https://flowbite.com/" className="hover:underline">

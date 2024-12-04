@@ -9,11 +9,11 @@ const Contact = () => {
     //* Functions
   } = useContact();
   return (
-    <>
+    <div className="app-container">
       <Header />
       <h1>Contacto</h1>
       <Footer />
-    </>
+    </div>
   );
 };
 

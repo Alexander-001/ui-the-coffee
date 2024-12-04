@@ -9,11 +9,11 @@ const About = () => {
     //* Functions
   } = useAbout();
   return (
-    <>
+    <div className="app-container">
       <Header />
       <h1>Sobre nosotros</h1>
       <Footer />
-    </>
+    </div>
   );
 };
 

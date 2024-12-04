@@ -12,7 +12,7 @@ const Locations: React.FC<{}> = () => {
   } = useLocations();
 
   return (
-    <div>
+    <div className="app-container">
       <Header />
       <div className="bg-white flex flex-col w-[450px] h-screen absolute z-40 border border-t-0 pb-5">
         <input

@@ -1,4 +1,5 @@
 import { Product } from "@/interfaces/product.interface";
+import { ProductsCategories } from "@/interfaces/productsCategories.interface";
 import { deleteImageCloudinary } from "@/services/ProductService/deleteImageCloudinary.service";
 import { deleteProductById } from "@/services/ProductService/deleteProductById.service";
 import { getAllProducts } from "@/services/ProductService/getAllProducts.service";
@@ -12,10 +13,15 @@ export const useProducts = () => {
   const { isAdmin, setValuesToken }: StateAppContext =
     useContext<any>(AppContext);
   const [products, setProducts] = useState<Array<Product>>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messageModal, setMessageModal] = useState<string>("");
   const [isErrorSession, setIsErrorSession] = useState<boolean>(false);
+  const [categories, setCategories] = useState<ProductsCategories[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>(
+    "Todas las categorias"
+  );
   const [dataImage, setDataImage] = useState<{ image: string; id: number }>({
     image: "",
     id: 0,
@@ -31,11 +37,19 @@ export const useProducts = () => {
     setLoading(true);
     const { data } = await getAllProducts();
     if (data.products.length > 0) {
+      let arrayCategories: ProductsCategories[] = [];
+      for (let i = 0; i < data.products.length; i++) {
+        const category = data.products[i].category;
+        arrayCategories.push({ id: i, name: category });
+      }
+      setCategories(arrayCategories);
       setProducts(data.products);
+      setFilteredProducts(data.products);
     } else {
       setShowModal(true);
       setIsErrorSession(data.errorSession);
       setProducts([]);
+      setFilteredProducts([]);
       if (data.errorSession) {
         setMessageModal(data.message);
       } else setMessageModal("No existen productos");
@@ -84,19 +98,34 @@ export const useProducts = () => {
     getProducts();
   };
 
+  const onClickCategory = (event: Event) => {
+    const { textContent } = event.target as HTMLButtonElement;
+    setActiveCategory(textContent || "");
+    if (textContent === "Todas las categorias") {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((el) => el.category === textContent);
+      setFilteredProducts(filtered);
+    }
+  };
+
   return {
     //* Variables
     isAdmin,
     products,
+    filteredProducts,
     loading,
     showModal,
     messageModal,
     dataImage,
+    categories,
+    activeCategory,
 
     //* Functions
     onClickCloseModal,
     onClickEditImage,
     onClickDeleteImage,
     onClickAcceptModal,
+    onClickCategory,
   };
 };

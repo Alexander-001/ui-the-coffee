@@ -11,7 +11,7 @@ export default function Home() {
   } = useIndex();
 
   return (
-    <div className="bg-gray-100 h-full">
+    <div className="app-container bg-gray-100 h-full">
       <Header />
       <Carousel />
       <div className="mt-20 md:mt-28 pb-20">

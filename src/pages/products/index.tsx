@@ -10,21 +10,24 @@ const Product = () => {
   const {
     //* Variables
     isAdmin,
-    products,
+    filteredProducts,
     loading,
     showModal,
     messageModal,
     dataImage,
+    categories,
+    activeCategory,
 
     //* Functions
     onClickCloseModal,
     onClickEditImage,
     onClickDeleteImage,
     onClickAcceptModal,
+    onClickCategory,
   } = useProducts();
 
   return (
-    <div className="h-full ">
+    <div className="app-container">
       <Header />
       {loading && (
         <>
@@ -67,9 +70,31 @@ const Product = () => {
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 mx-20">
             <Link
               href="/create-product"
-              className=" transition-all ease-in-out outline-none inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+              className="transition-all ease-in-out outline-none inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
             >
               Crear nuevo producto
+              <svg
+                className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
+            </Link>
+            <div className="ml-2 mr-2"></div>
+            <Link
+              href="/create-category"
+              className="transition-all ease-in-out outline-none inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+            >
+              Crear nueva categoria
               <svg
                 className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
                 aria-hidden="true"
@@ -89,42 +114,38 @@ const Product = () => {
           </div>
         )}
       </section>
-      {products.length > 0 && (
+      {filteredProducts.length > 0 && (
         <>
           <div className="flex items-center justify-center py-4 md:py-8 flex-wrap m-5">
             <button
-              type="button"
-              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-blue-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
+              type="button" // @ts-ignore
+              onClick={onClickCategory}
+              className={`transition-all ease-in-out rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white ${
+                activeCategory === "Todas las categorias"
+                  ? "bg-blue-900 hover:bg-blue-800"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
             >
               Todas las categorias
             </button>
-            <button
-              type="button"
-              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-            >
-              Gaming
-            </button>
-            <button
-              type="button"
-              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-            >
-              Bags
-            </button>
-            <button
-              type="button"
-              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-            >
-              Electronics
-            </button>
-            <button
-              type="button"
-              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-            >
-              Gaming
-            </button>
+            {categories.map((el, idx) => (
+              <button
+                type="button"
+                key={idx} // @ts-ignore
+                onClick={onClickCategory}
+                className={`transition-all ease-in-out rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white ${
+                  activeCategory === el.name
+                    ? "bg-blue-900 hover:bg-blue-800"
+                    : "bg-blue-600 hover:bg-blue-800"
+                }`}
+              >
+                {el.name}
+              </button>
+            ))}
           </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-12 mb-40">
-            {products.map((el, idx) => (
+            {filteredProducts.map((el, idx) => (
               <div
                 className="relative h-[100%] group transition-transform transform hover:scale-105 hover:translate-y-[-10px] rounded-lg overflow-hidden cursor-pointer"
                 key={idx}

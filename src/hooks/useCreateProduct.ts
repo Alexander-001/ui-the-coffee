@@ -1,11 +1,13 @@
 import { ProductService } from "@/interfaces/product.interface";
+import { ProductsCategories } from "@/interfaces/productsCategories.interface";
+import { getAllCategories } from "@/services/ProductsCategoriesService/getAllCategories.service";
 import { addProduct } from "@/services/ProductService/addProduct.service";
 import { uploadImageCloudinary } from "@/services/ProductService/uploadImageCloudinary.service";
 import AppContext from "@/utils/AppContext";
 import { StateAppContext } from "@/utils/AppContext/useInitialStateAppContext";
 import { logout } from "@/utils/Common";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export const useCreateProduct = () => {
   const { isAdmin, setValuesToken }: StateAppContext =
@@ -15,6 +17,7 @@ export const useCreateProduct = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messageModal, setMessageModal] = useState<string>("");
   const [isErrorSession, setIsErrorSession] = useState<boolean>(false);
+  const [categories, setCategories] = useState<ProductsCategories[]>([]);
   const [inputs, setInputs] = useState<ProductService>({
     name: "",
     price: "",
@@ -33,6 +36,22 @@ export const useCreateProduct = () => {
   });
 
   const router = useRouter();
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    setLoading(true);
+    const { data } = await getAllCategories();
+    if (data.errorSession) {
+      setIsErrorSession(true);
+      setLoading(false);
+      return;
+    }
+    setCategories(data.categories || []);
+    setLoading(false);
+  };
 
   const onSubmitCreateProduct = async (event: Event) => {
     event.preventDefault();
@@ -57,7 +76,7 @@ export const useCreateProduct = () => {
         const { data } = await addProduct(bodyParams);
         setShowModal(true);
         setMessageModal(data.message);
-        if (data.product === null) setIsErrorSession(true);
+        if (data.errorSession) setIsErrorSession(true);
       } else {
         setShowModal(true);
         setMessageModal("No se ha seleccionado ninguna imagen");
@@ -160,6 +179,8 @@ export const useCreateProduct = () => {
     isAdmin,
     inputs,
     errors,
+    categories,
+
     //* Functions
     onSubmitCreateProduct,
     onChangeInput,

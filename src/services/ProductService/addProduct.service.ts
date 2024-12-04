@@ -20,7 +20,7 @@ export const addProduct = async (bodyParams: ProductService) => {
       error,
       "Agregar productos"
     );
-    data = { message: message, product: null, errorSession };
+    data = { message, product: null, errorSession };
   }
   return { data };
 };

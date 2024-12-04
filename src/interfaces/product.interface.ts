@@ -16,6 +16,7 @@ export interface Product {
   description: string;
   sku: string;
   image: string;
+  category: string;
 }
 
 export interface ProductResponse {

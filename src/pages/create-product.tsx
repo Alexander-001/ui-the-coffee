@@ -15,6 +15,8 @@ const CreateProduct = () => {
     isAdmin,
     inputs,
     errors,
+    categories,
+
     //* Functions
     onSubmitCreateProduct,
     onChangeInput,
@@ -24,7 +26,7 @@ const CreateProduct = () => {
 
   useIsAdmin(isAdmin);
   return (
-    <div>
+    <div className="app-container">
       <Header />
       {loading && (
         <>
@@ -47,8 +49,8 @@ const CreateProduct = () => {
           </div>
         </>
       )}
-      <section className="bg-gray-200 h-full">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+      <section className="bg-gray-200 h-screen">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-full lg:py-0">
           <div className="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0  bg-gray-900">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -138,8 +140,11 @@ const CreateProduct = () => {
                     onChange={onChangeInput}
                   >
                     <option value="">Seleccione</option>
-                    <option value="cafe-grano">Cafe en grano</option>
-                    <option value="cafe-instantaneo">Cafe instantaneo</option>
+                    {categories.map((el, idx) => (
+                      <option key={idx} value={el.name}>
+                        {el.name}
+                      </option>
+                    ))}
                   </select>
                   {errors.category && (
                     <p className="text-red-200 mt-3">{errors.category}</p>

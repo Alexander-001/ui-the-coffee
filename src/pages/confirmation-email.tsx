@@ -18,7 +18,7 @@ const ConfirmationEmail: React.FC<{}> = () => {
   useLoggedIn();
 
   return (
-    <div>
+    <div className="app-container">
       <Header />
       {loading && (
         <>
