@@ -14,12 +14,13 @@ const Product = () => {
     loading,
     showModal,
     messageModal,
+    dataImage,
 
     //* Functions
     onClickCloseModal,
-    onClickImage,
     onClickEditImage,
     onClickDeleteImage,
+    onClickAcceptModal,
   } = useProducts();
 
   return (
@@ -41,12 +42,13 @@ const Product = () => {
           <div className="z-20 fixed inset-0 flex items-center justify-center">
             <WarningModal
               message={messageModal}
+              okButton={dataImage.image !== "" && dataImage.id !== 0}
+              onClickAccept={onClickAcceptModal}
               onClickClose={onClickCloseModal}
             />
           </div>
         </>
       )}
-
       <section className="bg-white mt-20">
         <div className="pt-16 px-4 mx-auto max-w-screen-xl text-center">
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">
@@ -87,81 +89,82 @@ const Product = () => {
           </div>
         )}
       </section>
-
-      <div className="flex items-center justify-center py-4 md:py-8 flex-wrap m-5">
-        <button
-          type="button"
-          className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-blue-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-        >
-          Todas las categorias
-        </button>
-        <button
-          type="button"
-          className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-        >
-          Gaming
-        </button>
-        <button
-          type="button"
-          className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-        >
-          Bags
-        </button>
-        <button
-          type="button"
-          className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-        >
-          Electronics
-        </button>
-        <button
-          type="button"
-          className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
-        >
-          Gaming
-        </button>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-12 mb-28">
-        {products.map((el, idx) => (
-          <div
-            className="relative h-[100%] group transition-transform transform hover:scale-105 hover:translate-y-[-10px] rounded-lg overflow-hidden cursor-pointer"
-            key={idx}
-            onClick={onClickImage}
-          >
-            <Link href={`/products/${el.id}`}>
-              <img
-                className="h-full max-w-full rounded-lg"
-                src={`data:image/png;base64,${el.image}`}
-                alt=""
-              />
-            </Link>
-
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white p-2 pb-5">
-              <div className="text-center font-bold text-xl md:text-3xl">
-                {el.name}
-              </div>
-              <div className="text-center text-xl">${el.price}</div>
-            </div>
-            {isAdmin && (
-              <div className="absolute right-2 top-2 hidden group-hover:block">
-                <div className="flex w-24 justify-between">
-                  <img
-                    src="/edit.svg"
-                    alt="Editar"
-                    className="text-md mr-2 size-10 cursor-pointer transition-all ease-in-out top-2 hover:bg-blue-100 bg-white text-gray-300 font-bold rounded-full"
-                    onClick={() => onClickEditImage(el.id)}
-                  />
-                  <img
-                    src="/close.svg"
-                    alt="Cerrar"
-                    className="text-md mr-2 size-10 text-xl cursor-pointer transition-all ease-in-out top-2 hover:bg-blue-100 bg-white text-gray-500 font-bold rounded-full"
-                    onClick={() => onClickDeleteImage(el.id)}
-                  />
-                </div>
-              </div>
-            )}
+      {products.length > 0 && (
+        <>
+          <div className="flex items-center justify-center py-4 md:py-8 flex-wrap m-5">
+            <button
+              type="button"
+              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-blue-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
+            >
+              Todas las categorias
+            </button>
+            <button
+              type="button"
+              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
+            >
+              Gaming
+            </button>
+            <button
+              type="button"
+              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
+            >
+              Bags
+            </button>
+            <button
+              type="button"
+              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
+            >
+              Electronics
+            </button>
+            <button
+              type="button"
+              className="transition-all ease-in-out hover:border-blue-200 hover:bg-blue-900 bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white"
+            >
+              Gaming
+            </button>
           </div>
-        ))}
-      </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-12 mb-40">
+            {products.map((el, idx) => (
+              <div
+                className="relative h-[100%] group transition-transform transform hover:scale-105 hover:translate-y-[-10px] rounded-lg overflow-hidden cursor-pointer"
+                key={idx}
+              >
+                <Link href={`/products/${el.id}`}>
+                  <img
+                    className="h-full max-w-full rounded-lg"
+                    src={el.image}
+                    alt=""
+                  />
+                </Link>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white p-2 pb-5">
+                  <div className="text-center font-bold text-xl md:text-3xl">
+                    {el.name}
+                  </div>
+                  <div className="text-center text-xl">${el.price}</div>
+                </div>
+                {isAdmin && (
+                  <div className="absolute right-2 top-2 hidden group-hover:block">
+                    <div className="flex w-24 justify-between">
+                      <img
+                        src="/edit.svg"
+                        alt="Editar"
+                        className="text-md mr-2 size-10 cursor-pointer transition-all ease-in-out top-2 hover:bg-blue-100 bg-white text-gray-300 font-bold rounded-full"
+                        onClick={() => onClickEditImage(el.id)}
+                      />
+                      <img
+                        src="/close.svg"
+                        alt="Cerrar"
+                        className="text-md mr-2 size-10 text-xl cursor-pointer transition-all ease-in-out top-2 hover:bg-blue-100 bg-white text-gray-500 font-bold rounded-full"
+                        onClick={() => onClickDeleteImage(el.image, el.id)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
       <Footer />
     </div>
   );

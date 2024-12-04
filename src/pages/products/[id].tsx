@@ -37,6 +37,7 @@ const ProductDetail = () => {
     router.push("/products");
   };
 
+  console.log(product?.image);
   return (
     <>
       <Header />
@@ -56,18 +57,10 @@ const ProductDetail = () => {
             {/* Imagen */}
             <div className="w-full lg:w-[50%] mb-6 lg:mb-0">
               <img
-                src={`data:image/png;base64,${product?.image}`}
+                src={product?.image}
                 alt={product?.name}
                 className="w-full max-h-[60vh] lg:max-h-[70vh] object-cover rounded-3xl shadow-xl"
               />
-              <div className="flex justify-center w-full mt-6">
-                <button
-                  onClick={() => router.push("/products")}
-                  className="bg-blue-600 text-white w-[80%] lg:w-[50%] font-extrabold py-2 px-6 rounded-full hover:bg-blue-700 transition ease-in-out"
-                >
-                  Ver productos
-                </button>
-              </div>
             </div>
 
             {/* Contenido de texto */}

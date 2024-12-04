@@ -1,5 +1,6 @@
 import { ProductService } from "@/interfaces/product.interface";
 import { addProduct } from "@/services/ProductService/addProduct.service";
+import { uploadImageCloudinary } from "@/services/ProductService/uploadImageCloudinary.service";
 import AppContext from "@/utils/AppContext";
 import { StateAppContext } from "@/utils/AppContext/useInitialStateAppContext";
 import { logout } from "@/utils/Common";
@@ -20,6 +21,7 @@ export const useCreateProduct = () => {
     description: "",
     sku: "",
     image: "",
+    category: "",
   });
   const [errors, setErrors] = useState<ProductService>({
     name: "",
@@ -27,36 +29,35 @@ export const useCreateProduct = () => {
     description: "",
     sku: "",
     image: "",
+    category: "",
   });
 
   const router = useRouter();
 
-  const onSubmitCreateProduct = (event: Event) => {
+  const onSubmitCreateProduct = async (event: Event) => {
     event.preventDefault();
     if (validation()) {
       setLoading(true);
-      const fileReader = new FileReader();
       if (file) {
-        fileReader.readAsDataURL(file);
-        fileReader.onload = async () => {
-          const renderFile = fileReader.result
-            ?.toString()
-            .match(/^data:.+?,(.+)$/);
-          const base64: string = renderFile ? renderFile[1] : "";
-          const bodyParams = {
-            name: inputs.name,
-            price: parseInt(inputs.price.toString()),
-            description: inputs.description,
-            sku: inputs.sku,
-            image: base64,
-          };
-          const { data } = await addProduct(bodyParams);
+        const { isErrorUploadImage, url } = await uploadImageCloudinary(file);
+        if (isErrorUploadImage) {
           setShowModal(true);
-          setMessageModal(data.message);
-          if (data.product === null) {
-            setIsErrorSession(true);
-          }
+          setMessageModal("Hubo un error al subir imágen");
+          setLoading(false);
+          return;
+        }
+        const bodyParams = {
+          name: inputs.name,
+          price: parseInt(inputs.price.toString()),
+          description: inputs.description,
+          sku: inputs.sku,
+          image: url,
+          category: inputs.category,
         };
+        const { data } = await addProduct(bodyParams);
+        setShowModal(true);
+        setMessageModal(data.message);
+        if (data.product === null) setIsErrorSession(true);
       } else {
         setShowModal(true);
         setMessageModal("No se ha seleccionado ninguna imagen");
@@ -101,6 +102,7 @@ export const useCreateProduct = () => {
     let description: string = "";
     let sku: string = "";
     let image: string = "";
+    let category: string = "";
     if (inputs.name === "") {
       name = "Se debe ingresar nombre del producto.";
     } else name = "";
@@ -116,6 +118,9 @@ export const useCreateProduct = () => {
     if (inputs.image === "") {
       image = "Se debe ingresar imagen del producto.";
     } else image = "";
+    if (inputs.category === "") {
+      category = "Se debe ingresar categoria";
+    } else category = "";
     setErrors((prevState) => ({
       ...prevState,
       name,
@@ -123,13 +128,15 @@ export const useCreateProduct = () => {
       description,
       sku,
       image,
+      category,
     }));
     if (
       inputs.name !== "" &&
       inputs.price !== "" &&
       inputs.description !== "" &&
       inputs.sku !== "" &&
-      inputs.image !== ""
+      inputs.image !== "" &&
+      inputs.category !== ""
     ) {
       return true;
     } else return false;

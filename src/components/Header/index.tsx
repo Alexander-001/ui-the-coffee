@@ -42,12 +42,13 @@ const Header: React.FC<{}> = () => {
       <div className="fixed w-full top-0 z-50 border-b">
         <header className="bg-white w-full h-12 text-black flex justify-between items-center px-4">
           <div>
-            <img
+            <p>Logo</p>
+            {/* <img
               src="/logo.svg"
               alt="The Coffee"
               onClick={onClickLogo}
               className="cursor-pointer h-[15px] flex items-center"
-            />
+            /> */}
           </div>
           <div className="md:hidden w-full md:w-auto flex justify-end items-end">
             <li

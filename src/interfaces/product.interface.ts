@@ -5,6 +5,7 @@ export interface ProductService {
   description: string;
   sku: string;
   image: string;
+  category: string;
 }
 
 //* Response Product Api services

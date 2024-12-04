@@ -21,6 +21,7 @@ const CreateProduct = () => {
     onChangeImageFile,
     onClickCloseModal,
   } = useCreateProduct();
+
   useIsAdmin(isAdmin);
   return (
     <div>
@@ -123,6 +124,25 @@ const CreateProduct = () => {
                   />
                   {errors.sku && (
                     <p className="text-red-200 mt-3">{errors.sku}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Seleccionar categoria
+                  </label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={inputs.category}
+                    className="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none" // @ts-ignore
+                    onChange={onChangeInput}
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="cafe-grano">Cafe en grano</option>
+                    <option value="cafe-instantaneo">Cafe instantaneo</option>
+                  </select>
+                  {errors.category && (
+                    <p className="text-red-200 mt-3">{errors.category}</p>
                   )}
                 </div>
                 <div>

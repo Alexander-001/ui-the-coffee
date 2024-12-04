@@ -1,4 +1,6 @@
 import { Product } from "@/interfaces/product.interface";
+import { deleteImageCloudinary } from "@/services/ProductService/deleteImageCloudinary.service";
+import { deleteProductById } from "@/services/ProductService/deleteProductById.service";
 import { getAllProducts } from "@/services/ProductService/getAllProducts.service";
 import AppContext from "@/utils/AppContext";
 import { StateAppContext } from "@/utils/AppContext/useInitialStateAppContext";
@@ -14,6 +16,10 @@ export const useProducts = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messageModal, setMessageModal] = useState<string>("");
   const [isErrorSession, setIsErrorSession] = useState<boolean>(false);
+  const [dataImage, setDataImage] = useState<{ image: string; id: number }>({
+    image: "",
+    id: 0,
+  });
 
   const router = useRouter();
 
@@ -28,13 +34,16 @@ export const useProducts = () => {
       setProducts(data.products);
     } else {
       setShowModal(true);
-      setMessageModal(data.message);
       setIsErrorSession(data.errorSession);
+      setProducts([]);
+      if (data.errorSession) {
+        setMessageModal(data.message);
+      } else setMessageModal("No existen productos");
     }
     setLoading(false);
   };
 
-  const onClickCloseModal = () => {
+  const onClickCloseModal = async () => {
     setShowModal(!showModal);
     if (isErrorSession) {
       logout(setValuesToken);
@@ -42,15 +51,37 @@ export const useProducts = () => {
     }
   };
 
-  const onClickImage = () => {};
-
   const onClickEditImage = (id: number) => {
-    console.log("Editando id: ", id);
+    console.log("Editando id: ", dataImage);
   };
 
-  const onClickDeleteImage = (id: number) => {
+  const onClickDeleteImage = (imageUrl: string, id: number) => {
+    const splitImage = imageUrl.split("/");
+    const image = splitImage[splitImage.length - 1].split(".")[0];
+    setDataImage({ image, id });
     setShowModal(true);
     setMessageModal("¿Estas seguro de eliminar esta imagen?");
+  };
+
+  const onClickAcceptModal = async () => {
+    setShowModal(!showModal);
+    setLoading(true);
+    const { isErrorDeleteImage } = await deleteImageCloudinary(dataImage.image);
+    if (isErrorDeleteImage) {
+      setShowModal(true);
+      setMessageModal("Hubo un error al eliminar imagen");
+      setDataImage({ image: "", id: 0 });
+      setLoading(false);
+      return;
+    }
+    const { data } = await deleteProductById(dataImage.id.toString());
+    setIsErrorSession(data.errorSession);
+    setShowModal(true);
+    if (data.errorSession) setIsErrorSession(data.errorSession);
+    setMessageModal(data.message);
+    setDataImage({ image: "", id: 0 });
+    setLoading(false);
+    getProducts();
   };
 
   return {
@@ -60,11 +91,12 @@ export const useProducts = () => {
     loading,
     showModal,
     messageModal,
+    dataImage,
 
     //* Functions
     onClickCloseModal,
-    onClickImage,
     onClickEditImage,
     onClickDeleteImage,
+    onClickAcceptModal,
   };
 };
