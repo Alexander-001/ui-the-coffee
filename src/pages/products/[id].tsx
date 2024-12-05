@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import WarningModal from "@/components/Modals/WarningModal";
 import { useProductsDetail } from "@/hooks/useProductsDetail";
 import "@fontsource-variable/onest";
+import Link from "next/link";
 
 const ProductDetail = () => {
   const {
@@ -48,6 +49,15 @@ const ProductDetail = () => {
               <p className="text-2xl lg:text-3xl text-blue-600 mt-6 font-extrabold">
                 ${product?.price}
               </p>
+              <p className="text-2xl lg:text-3xl text-sky-600 mt-6 font-extrabold">
+                SKU: {product?.sku}
+              </p>
+              <Link
+                href="/products"
+                className="font-bold mt-6 text-primary-500 hover:underline cursor-pointer text-green-700 hover:text-green-800"
+              >
+                Volver a productos
+              </Link>
             </div>
           </div>
         </div>

@@ -1,11 +1,18 @@
 import React from "react";
 
-const WarningModal: React.FC<{
+interface WarningModalI {
   message: string;
   okButton?: boolean;
   onClickClose: () => void;
   onClickAccept?: () => void;
-}> = ({ message, okButton, onClickClose, onClickAccept }) => {
+}
+
+const WarningModal: React.FC<WarningModalI> = ({
+  message,
+  okButton,
+  onClickClose,
+  onClickAccept,
+}) => {
   return (
     <div
       id="popup-modal"

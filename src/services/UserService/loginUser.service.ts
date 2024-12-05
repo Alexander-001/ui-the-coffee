@@ -20,6 +20,7 @@ export const loginUser = async (body: LoginInputs) => {
     data.token = response.token || "";
     data.username = response.username || "";
   } catch (error: any) {
+    console.log(error);
     const { message, errorSession } = manageSessionError(
       error,
       "Inicio de sesión"

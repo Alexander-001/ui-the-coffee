@@ -6,6 +6,7 @@ import { getAllProducts } from "@/services/ProductService/getAllProducts.service
 import AppContext from "@/utils/AppContext";
 import { StateAppContext } from "@/utils/AppContext/useInitialStateAppContext";
 import { logout } from "@/utils/Common";
+import { singletonProduct } from "@/utils/singleton";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
@@ -19,6 +20,16 @@ export const useProducts = () => {
   const [messageModal, setMessageModal] = useState<string>("");
   const [isErrorSession, setIsErrorSession] = useState<boolean>(false);
   const [categories, setCategories] = useState<ProductsCategories[]>([]);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product>({
+    id: 0,
+    name: "",
+    price: 0,
+    description: "",
+    sku: "",
+    image: "",
+    category: "",
+  });
   const [activeCategory, setActiveCategory] = useState<string>(
     "Todas las categorias"
   );
@@ -37,11 +48,16 @@ export const useProducts = () => {
     setLoading(true);
     const { data } = await getAllProducts();
     if (data.products.length > 0) {
-      let arrayCategories: ProductsCategories[] = [];
-      for (let i = 0; i < data.products.length; i++) {
-        const category = data.products[i].category;
-        arrayCategories.push({ id: i, name: category });
-      }
+      const uniqueCategories = new Set<string>();
+      data.products.forEach((product) => {
+        uniqueCategories.add(product.category);
+      });
+      const arrayCategories = Array.from(uniqueCategories).map(
+        (category, index) => ({
+          id: index,
+          name: category,
+        })
+      );
       setCategories(arrayCategories);
       setProducts(data.products);
       setFilteredProducts(data.products);
@@ -65,8 +81,12 @@ export const useProducts = () => {
     }
   };
 
-  const onClickEditImage = (id: number) => {
-    console.log("Editando id: ", dataImage);
+  const onClickEditImage = (product: Product) => {
+    setSelectedProduct(product);
+    const { setProduct, setCategories } = singletonProduct;
+    setProduct(product);
+    setCategories(categories);
+    router.push("/products/update");
   };
 
   const onClickDeleteImage = (imageUrl: string, id: number) => {
@@ -101,6 +121,7 @@ export const useProducts = () => {
   const onClickCategory = (event: Event) => {
     const { textContent } = event.target as HTMLButtonElement;
     setActiveCategory(textContent || "");
+    setShowDropdown(false);
     if (textContent === "Todas las categorias") {
       setFilteredProducts(products);
     } else {
@@ -120,6 +141,7 @@ export const useProducts = () => {
     dataImage,
     categories,
     activeCategory,
+    showDropdown,
 
     //* Functions
     onClickCloseModal,
@@ -127,5 +149,6 @@ export const useProducts = () => {
     onClickDeleteImage,
     onClickAcceptModal,
     onClickCategory,
+    setShowDropdown,
   };
 };

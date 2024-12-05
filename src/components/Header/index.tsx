@@ -2,7 +2,7 @@ import "@fontsource-variable/onest";
 import Link from "next/link";
 import React from "react";
 import WarningModal from "../Modals/WarningModal";
-import { useHeader } from "./useHeader";
+import { useHeader } from "./hooks/useHeader";
 
 const Header: React.FC<{}> = () => {
   const {

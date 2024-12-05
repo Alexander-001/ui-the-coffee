@@ -17,6 +17,7 @@ const Product = () => {
     dataImage,
     categories,
     activeCategory,
+    showDropdown,
 
     //* Functions
     onClickCloseModal,
@@ -24,6 +25,7 @@ const Product = () => {
     onClickDeleteImage,
     onClickAcceptModal,
     onClickCategory,
+    setShowDropdown,
   } = useProducts();
 
   return (
@@ -69,7 +71,7 @@ const Product = () => {
         {isAdmin && (
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 mx-20">
             <Link
-              href="/create-product"
+              href="/products/create"
               className="transition-all ease-in-out outline-none inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
             >
               Crear nuevo producto
@@ -91,7 +93,7 @@ const Product = () => {
             </Link>
             <div className="ml-2 mr-2"></div>
             <Link
-              href="/create-category"
+              href="/products/create-category"
               className="transition-all ease-in-out outline-none inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
             >
               Crear nueva categoria
@@ -117,34 +119,60 @@ const Product = () => {
       {filteredProducts.length > 0 && (
         <>
           <div className="flex items-center justify-center py-4 md:py-8 flex-wrap m-5">
-            <button
-              type="button" // @ts-ignore
-              onClick={onClickCategory}
-              className={`transition-all ease-in-out rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white ${
-                activeCategory === "Todas las categorias"
-                  ? "bg-blue-900 hover:bg-blue-800"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-              Todas las categorias
-            </button>
-            {categories.map((el, idx) => (
+            <div className="relative">
               <button
                 type="button"
-                key={idx} // @ts-ignore
-                onClick={onClickCategory}
-                className={`transition-all ease-in-out rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 text-white ${
-                  activeCategory === el.name
-                    ? "bg-blue-900 hover:bg-blue-800"
-                    : "bg-blue-600 hover:bg-blue-800"
-                }`}
+                className="bg-gray-800 flex justify-center hover:bg-gray-900 text-white font-medium rounded-full text-base px-5 py-2.5 text-center items-center w-[300px]"
+                onClick={() => setShowDropdown(!showDropdown)}
               >
-                {el.name}
+                {activeCategory}
+                <svg
+                  className="w-4 h-4 ml-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
               </button>
-            ))}
+              {showDropdown && (
+                <div className="absolute z-10 mt-2 bg-white rounded-lg shadow-lg w-full">
+                  <button
+                    type="button" // @ts-ignore
+                    onClick={onClickCategory}
+                    className={`w-full px-4 py-2 text-left text-black hover:bg-blue-800 hover:text-white ${
+                      activeCategory === "Todas las categorias"
+                        ? "bg-blue-700 text-white"
+                        : ""
+                    }`}
+                  >
+                    Todas las categorias
+                  </button>
+                  {categories.map((el, idx) => (
+                    <button
+                      key={idx} // @ts-ignore
+                      onClick={onClickCategory}
+                      className={`w-full px-4 py-2 text-left text-black hover:bg-blue-800 hover:text-white ${
+                        activeCategory === el.name
+                          ? "bg-blue-700 text-white"
+                          : ""
+                      }`}
+                    >
+                      {el.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mx-12 mb-40">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-4 md:mx-12 mb-40">
             {filteredProducts.map((el, idx) => (
               <div
                 className="relative h-[100%] group transition-transform transform hover:scale-105 hover:translate-y-[-10px] rounded-lg overflow-hidden cursor-pointer"
@@ -154,7 +182,7 @@ const Product = () => {
                   <img
                     className="h-full max-w-full rounded-lg"
                     src={el.image}
-                    alt=""
+                    alt={el.name}
                   />
                 </Link>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white p-2 pb-5">
@@ -170,7 +198,7 @@ const Product = () => {
                         src="/edit.svg"
                         alt="Editar"
                         className="text-md mr-2 size-10 cursor-pointer transition-all ease-in-out top-2 hover:bg-blue-100 bg-white text-gray-300 font-bold rounded-full"
-                        onClick={() => onClickEditImage(el.id)}
+                        onClick={() => onClickEditImage(el)}
                       />
                       <img
                         src="/close.svg"

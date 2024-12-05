@@ -19,7 +19,7 @@ const Loader: React.FC<{
       <button
         disabled
         type="button"
-        className="shadow-custom bg-white rounded-lg w-[50%] md:w-[25%] h-[30%] md:h-[20%] z-40 text-sm font-medium text-gray-900 justify-center items-center flex flex-col"
+        className="shadow-custom p-5 bg-gray-800 rounded-3xl w-[60%] md:w-[25%] h-[30%] md:h-[20%] z-40 text-sm font-medium text-gray-900 justify-center items-center flex flex-col"
       >
         <svg
           aria-hidden="true"
@@ -38,7 +38,9 @@ const Loader: React.FC<{
             fill="#1C64F2"
           />
         </svg>
-        <p className="mt-3 text-blue-600 font-bold text-2xl">{message}</p>
+        <p className="mt-3 text-gray-300 font-bold text-lg md:text-xl">
+          {message}
+        </p>
       </button>
     </div>
   );
