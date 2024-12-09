@@ -21,15 +21,6 @@ export const useProducts = () => {
   const [isErrorSession, setIsErrorSession] = useState<boolean>(false);
   const [categories, setCategories] = useState<ProductsCategories[]>([]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product>({
-    id: 0,
-    name: "",
-    price: 0,
-    description: "",
-    sku: "",
-    image: "",
-    category: "",
-  });
   const [activeCategory, setActiveCategory] = useState<string>(
     "Todas las categorias"
   );
@@ -82,7 +73,6 @@ export const useProducts = () => {
   };
 
   const onClickEditImage = (product: Product) => {
-    setSelectedProduct(product);
     const { setProduct, setCategories } = singletonProduct;
     setProduct(product);
     setCategories(categories);

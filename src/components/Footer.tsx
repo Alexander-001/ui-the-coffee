@@ -6,7 +6,7 @@ const Footer = () => {
       <span className="text-sm text-gray-300 sm:text-cente">
         © 2024{" "}
         <a href="https://flowbite.com/" className="hover:underline">
-          The Coffee
+          Cafe
         </a>
         . Todos los derechos reservados
       </span>
@@ -14,7 +14,7 @@ const Footer = () => {
         <li>
           <Link
             href="/about"
-            className="px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            className="px-4 mb-4 md:mb-0 text-center font-bold text-md md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
           >
             Sobre nosotros
           </Link>
@@ -22,7 +22,7 @@ const Footer = () => {
         <li>
           <Link
             href="/products"
-            className="px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            className="px-4 mb-4 md:mb-0 text-center font-bold text-md md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
           >
             Nuestros productos
           </Link>
@@ -30,7 +30,7 @@ const Footer = () => {
         <li>
           <Link
             href="/locations"
-            className="px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            className="px-4 mb-4 md:mb-0 text-center font-bold text-md md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
           >
             Nuestras tiendas
           </Link>
@@ -38,7 +38,7 @@ const Footer = () => {
         <li>
           <Link
             href="/contact"
-            className="px-4 mb-4 md:mb-0 text-center font-bold text-lg md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
+            className="px-4 mb-4 md:mb-0 text-center font-bold text-md md:text-xs relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full"
           >
             Contactanos
           </Link>

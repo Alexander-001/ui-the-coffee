@@ -21,6 +21,7 @@ export const useProductsDetail = () => {
         const productFound = data.products.find(
           (prod) => prod.id === parseInt(id)
         );
+        if (productFound === undefined) router.push("/products");
         setProduct(productFound ? productFound : null);
       }
     } else {

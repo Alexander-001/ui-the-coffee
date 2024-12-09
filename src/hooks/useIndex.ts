@@ -1,5 +1,3 @@
-import { getAllUsers } from "@/services/UserService/getAllUsers.service";
-import { getUserByUsername } from "@/services/UserService/getUserById.service";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -11,8 +9,8 @@ export const useIndex = () => {
   };
 
   const loadPage = async () => {
-    const { data } = await getAllUsers();
-    const {} = await getUserByUsername("Alexander");
+    /* const { data } = await getAllUsers();
+    const {} = await getUserByUsername("Alexander"); */
   };
 
   useEffect(() => {

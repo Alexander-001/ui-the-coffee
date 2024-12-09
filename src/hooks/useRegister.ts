@@ -134,6 +134,7 @@ export const useRegister = () => {
     messageModal,
     showPassword,
     showConfirmPassword,
+
     //* Functions
     onSubmitRegister,
     onChangeInput,

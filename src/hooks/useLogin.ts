@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
 export const useLogin = () => {
+  const { auth }: StateAppContext = useContext<any>(AppContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messageModal, setMessageModal] = useState<string>("");
@@ -20,7 +21,6 @@ export const useLogin = () => {
   });
 
   const router = useRouter();
-  const { auth }: StateAppContext = useContext<any>(AppContext);
 
   const validation = () => {
     let email: string = "";
@@ -92,6 +92,7 @@ export const useLogin = () => {
     inputs,
     errors,
     showPassword,
+
     //* Functions
     onChangeInput,
     onSubmitLogin,
